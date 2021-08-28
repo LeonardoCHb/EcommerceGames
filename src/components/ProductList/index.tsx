@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useCart } from "../../hooks/useCart";
 
 import { api } from "../../services/api";
 import { Product } from "../../utils/types";
@@ -9,6 +10,7 @@ console.log(api);
 
 export function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
+  const { addProduct, cart } = useCart();
 
   useEffect(() => {
     async function loadProducts() {
@@ -24,6 +26,12 @@ export function ProductList() {
     loadProducts();
   }, []);
 
+  function handleAddProduct(id: number) {
+    addProduct(id);
+  }
+
+  console.log(cart)
+
   return (
     <Container>
       {products.map((product) => (
@@ -35,7 +43,9 @@ export function ProductList() {
           <strong>{product.title}</strong>
           <span>{product.price}</span>
           <span>{product.score}</span>
-          <button>ADICIONAR AO CARRINHO</button>
+          <button onClick={() => handleAddProduct(product.id)}>
+            ADICIONAR AO CARRINHO
+          </button>
         </li>
       ))}
     </Container>

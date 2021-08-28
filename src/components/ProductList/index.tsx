@@ -1,22 +1,43 @@
-import React from "react";
+import { useState, useEffect } from "react";
 
-import fifa18 from "../../assets/fifa18.png"
-import {Container} from "./styles"
+import { api } from "../../services/api";
+import { Product } from "../../utils/types";
+
+import { Container } from "./styles";
+
+console.log(api);
 
 export function ProductList() {
-    return (
-        <Container>
-          <li>
-            <img src={fifa18} alt="" />
-            <strong>FIFA 18</strong>
-            <span>Preço: 195.39</span>
-            <span>SCORE: 325</span>
-            <button>
-                ADICIONAR AO CARRINHO
-            </button>
-          </li>
-          
-          
-        </Container>
-    )
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    async function loadProducts() {
+      const response = await api.get<Product[]>("products");
+
+      const ProductData = response.data.map((product) => ({
+        ...product,
+      }));
+
+      setProducts(ProductData);
+    }
+
+    loadProducts();
+  }, []);
+
+  return (
+    <Container>
+      {products.map((product) => (
+        <li key={product.id}>
+          <img
+            src={require(`../../assets/${product.image}.png`).default}
+            alt={`Imagem do jogo ${product.title}`}
+          />
+          <strong>{product.title}</strong>
+          <span>{product.price}</span>
+          <span>{product.score}</span>
+          <button>ADICIONAR AO CARRINHO</button>
+        </li>
+      ))}
+    </Container>
+  );
 }

@@ -1,16 +1,22 @@
 import React from "react";
-import { GlobalStyle } from "./styles/global";
-
-import { Home } from "./pages/Home";
+import { BrowserRouter } from "react-router-dom";
 import { CartProvider } from "./hooks/useCart";
+
+import { Header } from "./components/Header";
+
+import { GlobalStyle } from "./styles/global";
+import { Routes } from "./routes";
 
 export function App() {
   return (
     <>
-      <CartProvider>
-        <GlobalStyle />
-        <Home />
-      </CartProvider>
+      <BrowserRouter>
+        <CartProvider>
+          <GlobalStyle />
+          <Header/>
+          <Routes/>
+        </CartProvider>
+      </BrowserRouter>
     </>
   );
 }

@@ -12,7 +12,7 @@ export const Container = styled.ul`
         margin-bottom: 1rem;
         max-width: 15rem;
         border: solid 0.5rem;
-        color: var(--white);
+        color: var(--blue);
         img {
         }
     }

@@ -7,15 +7,15 @@ interface CartProviderProps {
   children: ReactNode;
 }
 
-/* interface UpdateProductAmount {
-  productId: number;
-  amount: number;
-} */
-
+interface updateProductProps {
+  productId: number
+  amount: number
+}
 interface CartContextInterface {
   cart: Product[];
   addProduct: (productId: number) => Promise<void>;
-  /* updateProductAmount: ({ productId, amount }: UpdateProductAmount) => void; */
+  removeProduct: (productId: number) => void;
+  updateProduct: ({productId, amount}: updateProductProps) => void;
 }
 
 const CartContext = createContext<CartContextInterface>(
@@ -25,13 +25,12 @@ const CartContext = createContext<CartContextInterface>(
 export function CartProvider({ children }: CartProviderProps) {
   const [cart, setCart] = useState<Product[]>(() => {
     const newCart = localStorage.getItem("@EcommerGames:products");
-    
+
     if (newCart) {
       return JSON.parse(newCart);
     }
     return [];
   });
-
 
   const addProduct = async (productId: number) => {
     const storagedCart = [...cart];
@@ -50,10 +49,50 @@ export function CartProvider({ children }: CartProviderProps) {
     }
 
     setCart(storagedCart);
-    localStorage.setItem('@EcommerGames:products', JSON.stringify(storagedCart))
+    localStorage.setItem(
+      "@EcommerGames:products",
+      JSON.stringify(storagedCart)
+    );
+  };
+  const removeProduct = async (productId: number) => {
+    const storagedCart = [...cart];
+    const productIdDeleted = storagedCart.findIndex(
+      (product) => product.id === productId
+    );
+
+    if (productIdDeleted >= 0) {
+      storagedCart.splice(productIdDeleted, 1);
+      setCart(storagedCart);
+      localStorage.setItem(
+        "@EcommerGames:products",
+        JSON.stringify(storagedCart)
+      );
+    } else {
+      alert("Produto não esta no carrinho!");
+    }
+  };
+  const updateProduct = async ({productId, amount}:updateProductProps) => {
+    console.log(amount)
+    if (amount <= 0){
+      return;
+    }
+    
+    const storagedCart = [...cart];
+    const hasProduct = storagedCart.find((product) => product.id === productId);
+
+    if (hasProduct) {
+      console.log(hasProduct.amount)
+      hasProduct.amount = amount;
+      setCart(storagedCart);
+      localStorage.setItem("@EcommerGames:products", JSON.stringify(storagedCart));
+    } else {
+      alert("Produto não esta no carrinho!");
+    }
   };
   return (
-    <CartContext.Provider value={{ cart, addProduct }}>
+    <CartContext.Provider
+      value={{ cart, addProduct, removeProduct, updateProduct }}
+    >
       {children}
     </CartContext.Provider>
   );

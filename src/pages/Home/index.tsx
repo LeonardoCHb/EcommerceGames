@@ -39,7 +39,6 @@ export function Home() {
     addProduct(id);
   }
 
-  console.log(cart);
 
   return (
     <Container>

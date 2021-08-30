@@ -1,14 +1,15 @@
 import React from "react";
+import { useCart } from "../../hooks/useCart";
 
-import { Container, TableContainer } from "./styles";
 import plusIcon from "../../assets/plusIcon.svg";
 import negativeIcon from "../../assets/negativeIcon.svg";
 import trashIcon from "../../assets/trashIcon.svg";
 
-import { useCart } from "../../hooks/useCart";
 import { Product } from "../../utils/types";
 import { Frete } from "../../utils/consts";
 import { formatPrice } from "../../utils/format";
+
+import { Container, TableContainer } from "./styles";
 
 export function Cart() {
   const { addProduct, removeProduct, updateProduct, cart } = useCart();

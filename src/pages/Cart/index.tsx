@@ -1,29 +1,35 @@
 import React from "react";
 
-import { Container } from "./styles";
+import { Container, TableContainer } from "./styles";
+import plusIcon from "../../assets/plusIcon.svg";
+import negativeIcon from "../../assets/negativeIcon.svg";
+import trashIcon from "../../assets/trashIcon.svg";
 
 import { useCart } from "../../hooks/useCart";
 import { Product } from "../../utils/types";
-import {Frete} from "../../utils/consts"
+import { Frete } from "../../utils/consts";
+import { formatPrice } from "../../utils/format";
 
 export function Cart() {
   const { addProduct, removeProduct, updateProduct, cart } = useCart();
 
   const FormattedCart = cart.map((product) => ({
     ...product,
+    formattedPrice:formatPrice(product.price),
     subTotal: product.price * product.amount,
   }));
 
   const TotalProductPrices = cart.reduce((sumTotal, product) => {
-    return sumTotal + product.price * product.amount
-  }, 0)
+    return sumTotal + product.price * product.amount;
+  }, 0);
 
   const TotalFrete = cart.reduce((sumTotal, product) => {
-    if(TotalProductPrices > Frete.limite)
-        return 0
-    else
-        return sumTotal + product.amount * Frete.valor
-  }, 0)
+    if (TotalProductPrices > Frete.limite) 
+      return 0;
+    else 
+      return sumTotal + product.amount * Frete.valor;
+  }, 0);
+
 
   function handleAddProduct(id: number) {
     addProduct(id);
@@ -33,52 +39,86 @@ export function Cart() {
     removeProduct(id);
   }
   function handleProductDecrement(product: Product) {
-    if(product.amount === 1)
-        removeProduct(product.id)
-    else
-        updateProduct({ productId: product.id, amount: product.amount - 1 });
+    if (product.amount === 1) 
+      removeProduct(product.id);
+    else 
+      updateProduct({ productId: product.id, amount: product.amount - 1 });
   }
 
   return (
+
     <>
+        {cart.length ? (
       <Container>
-        <table>
-          <tr>
-            <th>Item dos carrinho</th>
-            <th>Sumario</th>
-          </tr>
-
-          <tr>
-            {FormattedCart.map((product) => (
-              <td>
-                <img
-                  src={require(`../../assets/${product.image}.png`).default}
-                  alt={`Imagem do jogo ${product.title}`}
-                />
-                <strong>{product.title}</strong>
-                <span>SCORE: {product.score}</span>
-                <button onClick={() => handleProductDecrement(product)}>
-                  <h1>-</h1>
-                </button>
-                <span>QUANTIDADE: {product.amount}</span>
-                <button onClick={() => handleAddProduct(product.id)}>
-                  <h1>+</h1>
-                </button>
-                <button onClick={() => handleRemoveProduct(product.id)}>
-                  DELETE
-                </button>
-                <strong>SUBTOTAL: {product.subTotal}</strong>
-              </td>
-            ))}
-
-            <td>
-              <span>preco dos items: {TotalProductPrices}</span>
-              <span>FRETE: {TotalFrete}</span>
-              <span>precoTotal: {TotalProductPrices + TotalFrete}</span>
-            </td>
-          </tr>
-        </table>
+          <TableContainer>
+            <thead>
+              <tr>
+                <th>Jogos</th>
+                <th>Precos</th>
+                <th>Score</th>
+                <th>Quantidade</th>
+                <th>SubTotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {FormattedCart.map((product) => (
+                <tr key={product.id}>
+                  <td>
+                    <img
+                      src={require(`../../assets/${product.image}.png`).default}
+                      alt={`Imagem do jogo ${product.title}`}
+                    />
+                  </td>
+                  <td>
+                    <strong>{product.formattedPrice}</strong>
+                  </td>
+                  <td>
+                    <strong>{product.score}</strong>
+                  </td>
+  
+                  <td>
+                    <img
+                      onClick={() => handleProductDecrement(product)}
+                      src={negativeIcon}
+                      alt="Icone de Menos"
+                    />
+                    <strong className="Quantidade">{product.amount}</strong>
+                    <img
+                      onClick={() => handleAddProduct(product.id)}
+                      src={plusIcon}
+                      alt="Icone de Mais"
+                    />
+                  </td>
+                  <td>
+                    <strong>{formatPrice(product.subTotal)}</strong>
+                  </td>
+                  <td>
+                    <img
+                      src={trashIcon}
+                      alt="Icone da lixeira"
+                      onClick={() => handleRemoveProduct(product.id)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </TableContainer>
+            <footer>
+              <div className="TotalPrices">
+                <strong>Preço dos items: {formatPrice(TotalProductPrices)}</strong>
+                <strong>FRETE: {formatPrice(TotalFrete)}</strong>
+                <strong>Preço Total: {formatPrice(TotalProductPrices + TotalFrete)}</strong>
+              <button>FINALIZAR PEDIDO</button>
+              </div>
+            </footer>
       </Container>
+        ) : (
+
+          <p>
+            <h1>Carrinho Vazio..</h1>
+          </p>
+        )}
+      
     </>
   );
 }

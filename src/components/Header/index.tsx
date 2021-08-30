@@ -8,7 +8,7 @@ export function Header() {
   return (
     <>
       <Container>
-        <Link to="/"><h1>EcommerGames</h1></Link>
+        <Link to="/">EcommerGames</Link>
         <Link to="/cart"><img src={CartIcon} alt="Icone do Carrinho" /></Link>
       </Container>
     </>

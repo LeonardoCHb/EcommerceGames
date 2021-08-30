@@ -3,6 +3,7 @@ import { useCart } from "../../hooks/useCart";
 
 import { api } from "../../services/api";
 import { Product } from "../../utils/types";
+import { formatPrice } from "../../utils/format";
 
 import { Container } from "./styles";
 
@@ -44,14 +45,13 @@ export function Home() {
     <Container>
       {products.map((product) => (
         <li key={product.id}>
+          {console.log(product.title)}
           <img
             src={require(`../../assets/${product.image}.png`).default}
             alt={`Imagem do jogo ${product.title}`}
           />
-          <strong>{product.title}</strong>
-          <span>{product.price}</span>
-          <span>{product.score}</span>
-          <span>{product.amount}</span>
+          <strong>Preço: {formatPrice(product.price)}</strong>
+          <span>Score: {product.score}</span>
           <button onClick={() => handleAddProduct(product.id)}>
             ADICIONAR AO CARRINHO
           </button>

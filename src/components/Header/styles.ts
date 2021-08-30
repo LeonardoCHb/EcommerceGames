@@ -9,7 +9,12 @@ export const Container = styled.div`
     padding: 3rem 10rem 2rem;
     border-bottom: 0.2rem solid var(--barColor);
 
+    img {
+        max-width: 8rem;
+        border-radius: 4px;
+    }
+
     h1 {
-        color: var(--white);
+        color: #ffffff;
     }
 `

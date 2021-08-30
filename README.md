@@ -5,7 +5,7 @@ Nesse projeto foram ultilizadas as seguintes dependências:
 * :heavy_check_mark: styled-components
 * :heavy_check_mark: axios
 
-Requisitos Compridos:
+Requisitos:
 * :heavy_check_mark:Os valores exibidos no checkout (frete, subtotal e total) devem ser calculados dinamicamente
 * :heavy_check_mark: O usuário poderá adicionar e remover produtos do carrinho
 * :x: O usuário poderá ordenar os produtos por preço, popularidade (score) e ordem alfabética.

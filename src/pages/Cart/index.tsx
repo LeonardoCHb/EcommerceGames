@@ -16,7 +16,7 @@ export function Cart() {
 
   const FormattedCart = cart.map((product) => ({
     ...product,
-    formattedPrice:formatPrice(product.price),
+    formattedPrice: formatPrice(product.price),
     subTotal: product.price * product.amount,
   }));
 
@@ -25,12 +25,9 @@ export function Cart() {
   }, 0);
 
   const TotalFrete = cart.reduce((sumTotal, product) => {
-    if (TotalProductPrices > Frete.limite) 
-      return 0;
-    else 
-      return sumTotal + product.amount * Frete.valor;
+    if (TotalProductPrices > Frete.limite) return 0;
+    else return sumTotal + product.amount * Frete.valor;
   }, 0);
-
 
   function handleAddProduct(id: number) {
     addProduct(id);
@@ -47,10 +44,9 @@ export function Cart() {
   }
 
   return (
-
     <>
-        {cart.length ? (
-      <Container>
+      {cart.length ? (
+        <Container>
           <TableContainer>
             <thead>
               <tr>
@@ -76,7 +72,7 @@ export function Cart() {
                   <td>
                     <strong>{product.score}</strong>
                   </td>
-  
+
                   <td>
                     <img
                       onClick={() => handleProductDecrement(product)}
@@ -104,22 +100,24 @@ export function Cart() {
               ))}
             </tbody>
           </TableContainer>
-            <footer>
-              <div className="TotalPrices">
-                <strong>Preço dos items: {formatPrice(TotalProductPrices)}</strong>
-                <strong>FRETE: {formatPrice(TotalFrete)}</strong>
-                <strong>Preço Total: {formatPrice(TotalProductPrices + TotalFrete)}</strong>
+          <footer>
+            <div className="TotalPrices">
+              <strong>
+                Preço dos items: {formatPrice(TotalProductPrices)}
+              </strong>
+              <strong>FRETE: {formatPrice(TotalFrete)}</strong>
+              <strong>
+                Preço Total: {formatPrice(TotalProductPrices + TotalFrete)}
+              </strong>
               <button>FINALIZAR PEDIDO</button>
-              </div>
-            </footer>
-      </Container>
-        ) : (
-
-          <p>
-            <h1>Carrinho Vazio..</h1>
-          </p>
-        )}
-      
+            </div>
+          </footer>
+        </Container>
+      ) : (
+        <p>
+          <h1>Carrinho Vazio..</h1>
+        </p>
+      )}
     </>
   );
 }

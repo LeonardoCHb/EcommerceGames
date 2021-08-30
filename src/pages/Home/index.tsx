@@ -39,12 +39,10 @@ export function Home() {
     addProduct(id);
   }
 
-
   return (
     <Container>
       {products.map((product) => (
         <li key={product.id}>
-          {console.log(product.title)}
           <img
             src={require(`../../assets/${product.image}.png`).default}
             alt={`Imagem do jogo ${product.title}`}

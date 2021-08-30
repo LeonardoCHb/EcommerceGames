@@ -32,8 +32,10 @@ yarn server
 
 
 Home:
-![image](https://user-images.githubusercontent.com/52171813/131273163-e34dc3f1-5ff3-482d-baee-82a8d790b1dd.png)
+![image](https://user-images.githubusercontent.com/52171813/131273648-6f54a730-6fdc-4362-80d6-d908443d7148.png)
+
 
 Cart:
-![image](https://user-images.githubusercontent.com/52171813/131273225-b75565a8-7069-4de2-af34-bf2eef60897c.png)
+![image](https://user-images.githubusercontent.com/52171813/131273656-a22cff41-297e-4f8e-b034-0a6aab1eceba.png)
+
 
